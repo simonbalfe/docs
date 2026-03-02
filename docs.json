@@ -12,67 +12,18 @@
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
-  "openapi": "./openapi.json",
-  "api": {
-    "auth": {
-      "method": "bearer",
-      "name": "Authorization"
-    },
-    "baseUrl": "https://creatorcrawl.com"
-  },
   "navigation": {
-    "groups": [
+    "tabs": [
       {
-        "group": "Get Started",
+        "tab": "Documentation",
         "pages": [
           "index",
           "authentication"
         ]
       },
       {
-        "group": "Profile",
-        "pages": [
-          "GET /api/tiktok/profile",
-          "GET /api/tiktok/profile/videos",
-          "GET /api/tiktok/user/audience",
-          "GET /api/tiktok/user/followers",
-          "GET /api/tiktok/user/following",
-          "GET /api/tiktok/user/live"
-        ]
-      },
-      {
-        "group": "Video",
-        "pages": [
-          "GET /api/tiktok/video",
-          "GET /api/tiktok/video/comments",
-          "GET /api/tiktok/video/transcript"
-        ]
-      },
-      {
-        "group": "Search",
-        "pages": [
-          "GET /api/tiktok/search/keyword",
-          "GET /api/tiktok/search/hashtag",
-          "GET /api/tiktok/search/top",
-          "GET /api/tiktok/search/users"
-        ]
-      },
-      {
-        "group": "Trending",
-        "pages": [
-          "GET /api/tiktok/get-trending-feed",
-          "GET /api/tiktok/videos/popular",
-          "GET /api/tiktok/creators/popular",
-          "GET /api/tiktok/hashtags/popular",
-          "GET /api/tiktok/songs/popular"
-        ]
-      },
-      {
-        "group": "Song",
-        "pages": [
-          "GET /api/tiktok/song",
-          "GET /api/tiktok/song/videos"
-        ]
+        "tab": "API Reference",
+        "openapi": "openapi.json"
       }
     ]
   }
