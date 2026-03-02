@@ -8,6 +8,7 @@
     "dark": "#15803D"
   },
   "favicon": "/favicon.svg",
+  "openapi": "https://creatorcrawl.com/api/openapi.json",
   "navigation": {
     "tabs": [
       {
@@ -57,12 +58,53 @@
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Profile",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/endpoint/get-api-tiktok-profile",
+              "api-reference/endpoint/get-api-tiktok-profile-videos"
+            ]
+          },
+          {
+            "group": "User",
+            "pages": [
+              "api-reference/endpoint/get-api-tiktok-user-audience",
+              "api-reference/endpoint/get-api-tiktok-user-followers",
+              "api-reference/endpoint/get-api-tiktok-user-following",
+              "api-reference/endpoint/get-api-tiktok-user-live"
+            ]
+          },
+          {
+            "group": "Video",
+            "pages": [
+              "api-reference/endpoint/get-api-tiktok-video",
+              "api-reference/endpoint/get-api-tiktok-video-comments",
+              "api-reference/endpoint/get-api-tiktok-video-transcript"
+            ]
+          },
+          {
+            "group": "Search",
+            "pages": [
+              "api-reference/endpoint/get-api-tiktok-search-hashtag",
+              "api-reference/endpoint/get-api-tiktok-search-keyword",
+              "api-reference/endpoint/get-api-tiktok-search-top",
+              "api-reference/endpoint/get-api-tiktok-search-users"
+            ]
+          },
+          {
+            "group": "Trending",
+            "pages": [
+              "api-reference/endpoint/get-api-tiktok-get-trending-feed",
+              "api-reference/endpoint/get-api-tiktok-creators-popular",
+              "api-reference/endpoint/get-api-tiktok-hashtags-popular",
+              "api-reference/endpoint/get-api-tiktok-songs-popular",
+              "api-reference/endpoint/get-api-tiktok-videos-popular"
+            ]
+          },
+          {
+            "group": "Songs",
+            "pages": [
+              "api-reference/endpoint/get-api-tiktok-song",
+              "api-reference/endpoint/get-api-tiktok-song-videos"
             ]
           }
         ]
