@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "CreatorCrawl API",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#2563EB",
+    "light": "#3B82F6",
+    "dark": "#1D4ED8"
   },
   "favicon": "/favicon.svg",
   "logo": {
@@ -16,55 +16,28 @@
   "navigation": {
     "groups": [
       {
-        "group": "Get Started",
-        "pages": ["index", "authentication"]
-      },
-      {
-        "group": "Profile Endpoints",
+        "group": "Documentation",
         "pages": [
+          "index",
+          "authentication",
           "api-reference/tiktok/getapitiktokprofile",
-          "api-reference/tiktok/getapitiktokprofilevideos"
-        ]
-      },
-      {
-        "group": "User Endpoints",
-        "pages": [
+          "api-reference/tiktok/getapitiktokprofilevideos",
           "api-reference/tiktok/getapitiktokuserfollowers",
           "api-reference/tiktok/getapitiktokuserfollowing",
           "api-reference/tiktok/getapitiktokuseraudience",
-          "api-reference/tiktok/getapitiktokuserlive"
-        ]
-      },
-      {
-        "group": "Video Endpoints",
-        "pages": [
+          "api-reference/tiktok/getapitiktokuserlive",
           "api-reference/tiktok/getapitiktokvideo",
           "api-reference/tiktok/getapitiktokvideocomments",
-          "api-reference/tiktok/getapitiktokvideotranscript"
-        ]
-      },
-      {
-        "group": "Search Endpoints",
-        "pages": [
+          "api-reference/tiktok/getapitiktokvideotranscript",
           "api-reference/tiktok/getapitiktoksearchkeyword",
           "api-reference/tiktok/getapitiktoksearchhashtag",
           "api-reference/tiktok/getapitiktoksearchusers",
-          "api-reference/tiktok/getapitiktoksearchtop"
-        ]
-      },
-      {
-        "group": "Trending Endpoints",
-        "pages": [
+          "api-reference/tiktok/getapitiktoksearchtop",
           "api-reference/tiktok/getapitiktokgettrendingfeed",
           "api-reference/tiktok/getapitiktokvideospopular",
           "api-reference/tiktok/getapitiktokcreatorspopular",
           "api-reference/tiktok/getapitiktokhashtagspopular",
-          "api-reference/tiktok/getapitiktoksongspopular"
-        ]
-      },
-      {
-        "group": "Song Endpoints",
-        "pages": [
+          "api-reference/tiktok/getapitiktoksongspopular",
           "api-reference/tiktok/getapitiktoksong",
           "api-reference/tiktok/getapitiktoksongvideos"
         ]
