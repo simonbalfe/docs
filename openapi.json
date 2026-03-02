@@ -1,0 +1,830 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "CreatorCrawl API",
+    "description": "Scrape TikTok data at scale. Profiles, videos, comments, followers, trending content, and more.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://creatorcrawl.com",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "API key from your CreatorCrawl dashboard"
+      }
+    }
+  },
+  "paths": {
+    "/api/tiktok/profile": {
+      "get": {
+        "operationId": "getApiTiktokProfile",
+        "tags": ["Profile"],
+        "summary": "Get TikTok profile",
+        "description": "Fetches a public TikTok profile by handle, including user info, stats, and recent videos.",
+        "parameters": [
+          {
+            "name": "handle",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "TikTok handle (e.g. stoolpresidente)"
+          }
+        ],
+        "responses": {
+          "200": { "description": "TikTok profile data including user info, stats, and recent videos" },
+          "400": { "description": "Missing or invalid handle" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/profile/videos": {
+      "get": {
+        "operationId": "getApiTiktokProfileVideos",
+        "tags": ["Profile"],
+        "summary": "Get profile videos",
+        "description": "Extract videos from a TikTok profile with sorting and pagination support.",
+        "parameters": [
+          {
+            "name": "handle",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "TikTok handle (e.g. stoolpresidente)"
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "User ID for faster response times"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number", "enum": [0, 1] },
+            "description": "Sort order. 0 = newest first (default), 1 = most popular first"
+          },
+          {
+            "name": "max_cursor",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Pagination cursor from previous response"
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Proxy region. Use 2 letter country codes (US, GB, FR, etc.)"
+          },
+          {
+            "name": "trim",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean" },
+            "description": "Set to true to get a trimmed response with fewer fields"
+          }
+        ],
+        "responses": {
+          "200": { "description": "List of videos from the profile with pagination cursor" },
+          "400": { "description": "Missing or invalid handle" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/user/audience": {
+      "get": {
+        "operationId": "getApiTiktokUserAudience",
+        "tags": ["Profile"],
+        "summary": "Get user audience demographics",
+        "description": "Get the audience demographics of a TikTok user. Returns audience country distribution. Costs 26 credits per request.",
+        "parameters": [
+          {
+            "name": "handle",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "TikTok handle (e.g. shakira)"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Audience demographics with country distribution" },
+          "400": { "description": "Missing or invalid handle" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/user/followers": {
+      "get": {
+        "operationId": "getApiTiktokUserFollowers",
+        "tags": ["Profile"],
+        "summary": "Get user followers",
+        "description": "Scrapes followers of a TikTok account. Supports pagination via min_time. Provide either handle or user_id.",
+        "parameters": [
+          {
+            "name": "handle",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "TikTok handle (e.g. stoolpresidente)"
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "User ID for faster response times"
+          },
+          {
+            "name": "min_time",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Pagination cursor from previous response"
+          },
+          {
+            "name": "trim",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean" },
+            "description": "Set to true to get a trimmed response"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Follower list with pagination cursor" },
+          "400": { "description": "Missing handle or user_id" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/user/following": {
+      "get": {
+        "operationId": "getApiTiktokUserFollowing",
+        "tags": ["Profile"],
+        "summary": "Get user following",
+        "description": "Extract accounts a TikTok user follows. Supports pagination via min_time.",
+        "parameters": [
+          {
+            "name": "handle",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "TikTok handle (e.g. stoolpresidente)"
+          },
+          {
+            "name": "min_time",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Pagination cursor from previous response"
+          },
+          {
+            "name": "trim",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean" },
+            "description": "Set to true to get a trimmed response"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Following list with pagination cursor" },
+          "400": { "description": "Missing or invalid handle" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/user/live": {
+      "get": {
+        "operationId": "getApiTiktokUserLive",
+        "tags": ["Profile"],
+        "summary": "Get user live stream",
+        "description": "Retrieve live stream data for a TikTok user including stream URLs and viewer counts.",
+        "parameters": [
+          {
+            "name": "handle",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "TikTok handle (e.g. stoolpresidente)"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Live stream data including URLs and viewer count" },
+          "400": { "description": "Missing or invalid handle" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/video": {
+      "get": {
+        "operationId": "getApiTiktokVideo",
+        "tags": ["Video"],
+        "summary": "Get video info",
+        "description": "Scrapes data from a TikTok video including author, statistics, video URLs, and more.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "TikTok video URL"
+          },
+          {
+            "name": "get_transcript",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Set to true to include the video transcript"
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Proxy region. Use 2 letter country codes (US, GB, FR, PH, etc.)"
+          },
+          {
+            "name": "trim",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Set to true to get a trimmed response"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Video data including author, stats, and download URLs" },
+          "400": { "description": "Missing or invalid URL" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/video/comments": {
+      "get": {
+        "operationId": "getApiTiktokVideoComments",
+        "tags": ["Video"],
+        "summary": "Get video comments",
+        "description": "Scrapes comments from a TikTok video. Supports pagination via cursor.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "TikTok video URL"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Pagination cursor from previous response"
+          },
+          {
+            "name": "trim",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean" },
+            "description": "Set to true to get a trimmed response"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Comment list with pagination cursor" },
+          "400": { "description": "Missing or invalid URL" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/video/transcript": {
+      "get": {
+        "operationId": "getApiTiktokVideoTranscript",
+        "tags": ["Video"],
+        "summary": "Get video transcript",
+        "description": "Obtain the transcript of a TikTok video. Supports AI fallback for videos without native captions.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "TikTok video URL"
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Language code (e.g. en, es, fr)"
+          },
+          {
+            "name": "use_ai_as_fallback",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Set to true to use AI transcription when native captions are unavailable"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Video transcript with timestamps" },
+          "400": { "description": "Missing or invalid URL" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/search/keyword": {
+      "get": {
+        "operationId": "getApiTiktokSearchKeyword",
+        "tags": ["Search"],
+        "summary": "Search by keyword",
+        "description": "Search TikTok videos by keyword with date and sort filters.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Search keyword"
+          },
+          {
+            "name": "date_posted",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Filter by date (e.g. today, this_week, this_month)"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Sort order (e.g. relevance, likes, date)"
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Proxy region. Use 2 letter country codes (US, GB, FR, etc.)"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Pagination cursor from previous response"
+          },
+          {
+            "name": "trim",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean" },
+            "description": "Set to true to get a trimmed response"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Search results with video list and pagination cursor" },
+          "400": { "description": "Missing or invalid query" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/search/hashtag": {
+      "get": {
+        "operationId": "getApiTiktokSearchHashtag",
+        "tags": ["Search"],
+        "summary": "Search by hashtag",
+        "description": "Query TikTok videos by hashtag with pagination support.",
+        "parameters": [
+          {
+            "name": "hashtag",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Hashtag to search (without # symbol)"
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Proxy region. Use 2 letter country codes (US, GB, FR, etc.)"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Pagination cursor from previous response"
+          },
+          {
+            "name": "trim",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean" },
+            "description": "Set to true to get a trimmed response"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Videos matching the hashtag with pagination cursor" },
+          "400": { "description": "Missing or invalid hashtag" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/search/top": {
+      "get": {
+        "operationId": "getApiTiktokSearchTop",
+        "tags": ["Search"],
+        "summary": "Top search results",
+        "description": "Get top search results from TikTok including videos and photo carousels.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Search query"
+          },
+          {
+            "name": "publish_time",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Filter by publish time"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Sort order"
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Proxy region. Use 2 letter country codes (US, GB, FR, etc.)"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Pagination cursor from previous response"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Top search results including videos and photo carousels" },
+          "400": { "description": "Missing or invalid query" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/search/users": {
+      "get": {
+        "operationId": "getApiTiktokSearchUsers",
+        "tags": ["Search"],
+        "summary": "Search users",
+        "description": "Search for TikTok users matching a query.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Search query"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Pagination cursor from previous response"
+          },
+          {
+            "name": "trim",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean" },
+            "description": "Set to true to get a trimmed response"
+          }
+        ],
+        "responses": {
+          "200": { "description": "User search results with pagination cursor" },
+          "400": { "description": "Missing or invalid query" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/get-trending-feed": {
+      "get": {
+        "operationId": "getApiTiktokGetTrendingFeed",
+        "tags": ["Trending"],
+        "summary": "Get trending feed",
+        "description": "Retrieve the regional trending feed from TikTok.",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Region code (e.g. US, GB, FR, DE, JP)"
+          },
+          {
+            "name": "trim",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean" },
+            "description": "Set to true to get a trimmed response"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Trending video feed for the specified region" },
+          "400": { "description": "Missing or invalid region" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/videos/popular": {
+      "get": {
+        "operationId": "getApiTiktokVideosPopular",
+        "tags": ["Trending"],
+        "summary": "Get popular videos",
+        "description": "Get popular TikTok videos. Sortable by engagement metrics.",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number", "enum": [7, 30, 120] },
+            "description": "Time period in days (7, 30, or 120)"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Page number"
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Sort by metric"
+          },
+          {
+            "name": "countryCode",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Country code (e.g. US, GB, FR)"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Popular videos list with engagement metrics" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/creators/popular": {
+      "get": {
+        "operationId": "getApiTiktokCreatorsPopular",
+        "tags": ["Trending"],
+        "summary": "Get popular creators",
+        "description": "Find popular TikTok creators filtered by followers, country, and engagement.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Page number"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Sort field"
+          },
+          {
+            "name": "followerCount",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Follower count filter range"
+          },
+          {
+            "name": "creatorCountry",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Creator country filter"
+          },
+          {
+            "name": "audienceCountry",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Audience country filter"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Popular creators list with engagement data" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/hashtags/popular": {
+      "get": {
+        "operationId": "getApiTiktokHashtagsPopular",
+        "tags": ["Trending"],
+        "summary": "Get popular hashtags",
+        "description": "Get popular hashtags from TikTok. Filter by time period, country, and show newly trending hashtags.",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number", "enum": [7, 30, 120] },
+            "description": "Time period in days (7, 30, or 120)"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Page number"
+          },
+          {
+            "name": "countryCode",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Country code (e.g. US, GB, FR, DE, JP, KR, BR)"
+          },
+          {
+            "name": "newOnBoard",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Show only newly trending hashtags"
+          },
+          {
+            "name": "industry",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Industry filter (e.g. beauty-and-personal-care, food-and-beverage, tech-and-electronics)"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Popular hashtags with trend data and view counts" },
+          "400": { "description": "Invalid parameters" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/songs/popular": {
+      "get": {
+        "operationId": "getApiTiktokSongsPopular",
+        "tags": ["Trending"],
+        "summary": "Get popular songs",
+        "description": "List popular or surging songs on TikTok. Response may take up to 30 seconds.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Page number"
+          },
+          {
+            "name": "timePeriod",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Time period filter"
+          },
+          {
+            "name": "rankType",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Ranking type"
+          },
+          {
+            "name": "newOnBoard",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Show only newly trending songs"
+          },
+          {
+            "name": "commercialMusic",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Filter for commercial/licensed music only"
+          },
+          {
+            "name": "countryCode",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Country code (e.g. US, GB, FR)"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Popular songs list with usage statistics" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/song": {
+      "get": {
+        "operationId": "getApiTiktokSong",
+        "tags": ["Song"],
+        "summary": "Get song details",
+        "description": "Retrieve details about a TikTok song/clip by its clip ID.",
+        "parameters": [
+          {
+            "name": "clipId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "TikTok clip ID"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Song details including title, author, and usage stats" },
+          "400": { "description": "Missing or invalid clipId" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    },
+    "/api/tiktok/song/videos": {
+      "get": {
+        "operationId": "getApiTiktokSongVideos",
+        "tags": ["Song"],
+        "summary": "Get videos using a song",
+        "description": "Find TikTok videos that use a specific song. Supports pagination.",
+        "parameters": [
+          {
+            "name": "clipId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "TikTok clip ID"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "Pagination cursor from previous response"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Videos using the song with pagination cursor" },
+          "400": { "description": "Missing or invalid clipId" },
+          "401": { "description": "Unauthorized — missing or invalid API key" },
+          "502": { "description": "Upstream API error — TikTok returned an error, retry the request" }
+        }
+      }
+    }
+  }
+}
