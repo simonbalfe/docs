@@ -1,0 +1,40 @@
+---
+title: "Authentication"
+description: "How to authenticate with the CreatorCrawl API."
+---
+
+## Bearer token
+
+All API requests require a Bearer token in the `Authorization` header.
+
+```bash
+curl "https://creatorcrawl.com/api/tiktok/profile?handle=shakira" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Get your API key from the [CreatorCrawl dashboard](https://creatorcrawl.com).
+
+## Error responses
+
+| Status | Description |
+|--------|-------------|
+| `400` | Missing or invalid parameters. Check the request query string. |
+| `401` | Unauthorized. Your API key is missing or invalid. |
+| `502` | Upstream API error. TikTok's servers returned an error. Retry the request. |
+
+## Credits
+
+Some endpoints cost credits per request. Credit costs are noted in each endpoint's description. Monitor your credit usage from the dashboard.
+
+## Pagination
+
+Many endpoints support cursor-based pagination. The response includes a cursor value (e.g. `cursor`, `max_cursor`, or `min_time`) that you pass as a query parameter to fetch the next page of results.
+
+```bash
+curl "https://creatorcrawl.com/api/tiktok/profile/videos?handle=shakira&max_cursor=1234567890" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Trimmed responses
+
+Several endpoints accept a `trim` parameter. Set `trim=true` to receive a smaller response payload with only the most commonly needed fields.
