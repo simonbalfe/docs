@@ -29,6 +29,12 @@ https://creatorcrawl.com
   <Card title="Trending" icon="arrow-trend-up" href="/api/tiktok/get-trending-feed">
     Get trending videos, hashtags, songs, and creators.
   </Card>
+  <Card title="MCP Server" icon="robot" href="/mcp">
+    Connect CreatorCrawl to Claude, Cursor, Windsurf, and any MCP client.
+  </Card>
+  <Card title="Authentication" icon="key" href="/authentication">
+    API keys, credits, pagination, and error handling.
+  </Card>
 </Columns>
 
 ## Quick start
@@ -40,10 +46,10 @@ https://creatorcrawl.com
   <Step title="Make your first request">
     ```bash
     curl "https://creatorcrawl.com/api/tiktok/profile?handle=shakira" \
-      -H "Authorization: Bearer YOUR_API_KEY"
+      -H "x-api-key: YOUR_API_KEY"
     ```
   </Step>
   <Step title="Explore the API">
-    Browse the [API Reference](/api/tiktok/profile) to see all available endpoints.
+    Browse the [API Reference](/api/tiktok/profile) to see all available endpoints, or connect via the [MCP server](/mcp) for AI-native access.
   </Step>
 </Steps>

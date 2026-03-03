@@ -3,13 +3,13 @@ title: "Authentication"
 description: "How to authenticate with the CreatorCrawl API."
 ---
 
-## Bearer token
+## API key
 
-All API requests require a Bearer token in the `Authorization` header.
+All API requests require your API key in the `x-api-key` header.
 
 ```bash
 curl "https://creatorcrawl.com/api/tiktok/profile?handle=shakira" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+  -H "x-api-key: YOUR_API_KEY"
 ```
 
 Get your API key from the [CreatorCrawl dashboard](https://creatorcrawl.com).
@@ -32,7 +32,7 @@ Many endpoints support cursor-based pagination. The response includes a cursor v
 
 ```bash
 curl "https://creatorcrawl.com/api/tiktok/profile/videos?handle=shakira&max_cursor=1234567890" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+  -H "x-api-key: YOUR_API_KEY"
 ```
 
 ## Trimmed responses

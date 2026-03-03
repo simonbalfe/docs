@@ -18,7 +18,8 @@
         "tab": "Documentation",
         "pages": [
           "index",
-          "authentication"
+          "authentication",
+          "mcp"
         ]
       },
       {

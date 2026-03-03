@@ -1,0 +1,150 @@
+---
+title: "MCP Server"
+sidebarTitle: "MCP Server"
+description: "Connect CreatorCrawl to Claude, Cursor, Windsurf, and any MCP-compatible AI client."
+---
+
+## Overview
+
+CreatorCrawl exposes a [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that lets AI assistants call TikTok data tools directly. Instead of writing HTTP requests, your AI agent uses structured tool calls — and CreatorCrawl handles the rest.
+
+Same API key. Same credits. Same data. Just a different interface.
+
+**Endpoint**
+
+```
+https://creatorcrawl.com/api/mcp
+```
+
+## Setup
+
+Add CreatorCrawl to your MCP client config. Replace `YOUR_API_KEY` with your key from the [dashboard](https://creatorcrawl.com/dashboard/api).
+
+<Tabs>
+  <Tab title="Claude Code">
+    Run this command in your terminal:
+
+    ```bash
+    claude mcp add creator-crawl \
+      --transport http \
+      --url https://creatorcrawl.com/api/mcp \
+      --header "x-api-key: YOUR_API_KEY"
+    ```
+
+    Or add it to your `.mcp.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "creator-crawl": {
+          "type": "http",
+          "url": "https://creatorcrawl.com/api/mcp",
+          "headers": {
+            "x-api-key": "YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Cursor">
+    Add to your Cursor MCP settings (`.cursor/mcp.json`):
+
+    ```json
+    {
+      "mcpServers": {
+        "creator-crawl": {
+          "type": "http",
+          "url": "https://creatorcrawl.com/api/mcp",
+          "headers": {
+            "x-api-key": "YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Windsurf">
+    Add to your Windsurf MCP config (`~/.codeium/windsurf/mcp_config.json`):
+
+    ```json
+    {
+      "mcpServers": {
+        "creator-crawl": {
+          "url": "https://creatorcrawl.com/api/mcp",
+          "headers": {
+            "x-api-key": "YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Available tools
+
+Once connected, your AI assistant can call any of these 22 tools:
+
+### Profiles & Users
+
+| Tool | Description |
+|------|-------------|
+| `get_profile` | Fetch a TikTok profile by handle |
+| `get_profile_videos` | Get videos from a profile (paginated, sortable) |
+| `get_followers` | Get a user's followers (paginated) |
+| `get_following` | Get accounts a user follows (paginated) |
+| `get_audience` | Get audience demographics (country distribution) |
+| `get_live` | Get live stream info and viewer count |
+
+### Videos
+
+| Tool | Description |
+|------|-------------|
+| `get_video` | Get detailed video info, stats, and metadata |
+| `get_video_comments` | Get video comments (paginated) |
+| `get_video_transcript` | Get video transcript with language support |
+
+### Search
+
+| Tool | Description |
+|------|-------------|
+| `search_keyword` | Search videos by keyword with date/sort filters |
+| `search_hashtag` | Search videos by hashtag |
+| `search_users` | Search for TikTok users |
+| `search_top` | Search top results (videos + photo carousels) |
+
+### Trending & Popular
+
+| Tool | Description |
+|------|-------------|
+| `get_popular_videos` | Get trending videos with sorting |
+| `get_popular_creators` | Get trending creators with filtering |
+| `get_popular_hashtags` | Get trending hashtags by period/country/industry |
+| `get_popular_songs` | Get popular and surging songs |
+| `get_trending_feed` | Get the trending feed for a region |
+
+### Songs
+
+| Tool | Description |
+|------|-------------|
+| `get_song` | Get song details by clip ID |
+| `get_song_videos` | Get videos using a specific song |
+
+## Example prompts
+
+Once your MCP client is connected, try asking your AI assistant:
+
+- *"Find 10 fitness creators with over 500K followers"*
+- *"What are the trending hashtags in the US this week?"*
+- *"Get the top comments on this TikTok video: [url]"*
+- *"Show me the audience demographics for @charlidamelio"*
+- *"Search for TikTok videos about sustainable fashion from the last month"*
+
+## Credits & billing
+
+MCP tool calls use the same credit system as REST API requests. Each tool call costs **1 credit**. Monitor your balance from the [dashboard](https://creatorcrawl.com/dashboard/api).
+
+## Authentication
+
+The MCP server uses the same API key as the REST API. Pass it via the `x-api-key` header in your MCP client config. Get your key from the [dashboard](https://creatorcrawl.com/dashboard/api).
