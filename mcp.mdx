@@ -18,20 +18,21 @@ https://creatorcrawl.com/api/mcp
 
 ## Setup
 
-Add CreatorCrawl to your MCP client config. Replace `YOUR_API_KEY` with your key from the [dashboard](https://creatorcrawl.com/dashboard/api).
+Add CreatorCrawl to your MCP client config. Replace `YOUR_API_KEY` with your key from the [dashboard](https://creatorcrawl.com/api-keys).
 
 <Tabs>
   <Tab title="Claude Code">
     Run this command in your terminal:
 
     ```bash
-    claude mcp add creator-crawl \
+    claude mcp add \
       --transport http \
-      --url https://creatorcrawl.com/api/mcp \
-      --header "x-api-key: YOUR_API_KEY"
+      --header "x-api-key: YOUR_API_KEY" \
+      creator-crawl \
+      https://creatorcrawl.com/api/mcp
     ```
 
-    Or add it to your `.mcp.json`:
+    Or add it to your project's `.mcp.json`:
 
     ```json
     {
@@ -46,6 +47,37 @@ Add CreatorCrawl to your MCP client config. Replace `YOUR_API_KEY` with your key
       }
     }
     ```
+
+    <Note>All flags (`--transport`, `--header`) must come before the server name.</Note>
+  </Tab>
+  <Tab title="Claude Desktop">
+    In Claude Desktop, click the **+** button in the chat input, then go to **Connectors > Add Custom Connector** and enter:
+
+    ```
+    https://creatorcrawl.com/api/mcp
+    ```
+
+    Or add to your `claude_desktop_config.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "creator-crawl": {
+          "type": "http",
+          "url": "https://creatorcrawl.com/api/mcp",
+          "headers": {
+            "x-api-key": "YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+
+    Config file locations:
+    - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+    - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+    <Note>Restart Claude Desktop after editing the config file.</Note>
   </Tab>
   <Tab title="Cursor">
     Add to your Cursor MCP settings (`.cursor/mcp.json`):
@@ -84,7 +116,7 @@ Add CreatorCrawl to your MCP client config. Replace `YOUR_API_KEY` with your key
 
 ## Available tools
 
-Once connected, your AI assistant can call any of these 22 tools:
+Once connected, your AI assistant can call any of these tools:
 
 ### Profiles & Users
 
@@ -94,7 +126,6 @@ Once connected, your AI assistant can call any of these 22 tools:
 | `get_profile_videos` | Get videos from a profile (paginated, sortable) |
 | `get_followers` | Get a user's followers (paginated) |
 | `get_following` | Get accounts a user follows (paginated) |
-| `get_audience` | Get audience demographics (country distribution) |
 | `get_live` | Get live stream info and viewer count |
 
 ### Videos
@@ -143,8 +174,8 @@ Once your MCP client is connected, try asking your AI assistant:
 
 ## Credits & billing
 
-MCP tool calls use the same credit system as REST API requests. Each tool call costs **1 credit**. Monitor your balance from the [dashboard](https://creatorcrawl.com/dashboard/api).
+MCP tool calls use the same credit system as REST API requests. Each tool call costs **1 credit**. Monitor your balance from the [dashboard](https://creatorcrawl.com/api-keys).
 
 ## Authentication
 
-The MCP server uses the same API key as the REST API. Pass it via the `x-api-key` header in your MCP client config. Get your key from the [dashboard](https://creatorcrawl.com/dashboard/api).
+The MCP server uses the same API key as the REST API. Pass it via the `x-api-key` header in your MCP client config. Get your key from the [dashboard](https://creatorcrawl.com/api-keys).
