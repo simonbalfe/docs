@@ -1,7 +1,7 @@
 ---
 title: "MCP Server"
 sidebarTitle: "MCP Server"
-description: "Connect CreatorCrawl to Claude, Cursor, Windsurf, and any MCP-compatible AI client."
+description: "Connect CreatorCrawl to Claude, Cursor, and any MCP-compatible AI client."
 ---
 
 ## Overview
@@ -55,22 +55,6 @@ Add CreatorCrawl to your MCP client config. Replace `YOUR_API_KEY` with your key
       "mcpServers": {
         "creator-crawl": {
           "type": "http",
-          "url": "https://creatorcrawl.com/api/mcp",
-          "headers": {
-            "x-api-key": "YOUR_API_KEY"
-          }
-        }
-      }
-    }
-    ```
-  </Tab>
-  <Tab title="Windsurf">
-    Add to your Windsurf MCP config (`~/.codeium/windsurf/mcp_config.json`):
-
-    ```json
-    {
-      "mcpServers": {
-        "creator-crawl": {
           "url": "https://creatorcrawl.com/api/mcp",
           "headers": {
             "x-api-key": "YOUR_API_KEY"
