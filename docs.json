@@ -19,7 +19,7 @@
         "pages": [
           "index",
           "authentication",
-          "mcp"
+          "mcp-server"
         ]
       },
       {
